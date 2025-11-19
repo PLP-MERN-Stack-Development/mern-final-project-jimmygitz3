@@ -1,52 +1,184 @@
-# MERN Stack Capstone Project
+# Kejah - Student Housing Platform
 
-This assignment focuses on designing, developing, and deploying a comprehensive full-stack MERN application that showcases all the skills you've learned throughout the course.
+A MERN stack application for university students to find affordable housing across Kenya. Landlords can list properties with subscription-based payments via M-Pesa.
 
-## Assignment Overview
+## Features
 
-You will:
-1. Plan and design a full-stack MERN application
-2. Develop a robust backend with MongoDB, Express.js, and Node.js
-3. Create an interactive frontend with React.js
-4. Implement testing across the entire application
-5. Deploy the application to production
+### For Students/Tenants
+- Browse housing listings by location, price, and university proximity
+- Filter properties by type, amenities, and price range
+- View detailed property information with images
+- Contact landlords (with connection fee)
+- Create tenant accounts
 
-## Getting Started
+### For Landlords
+- Create landlord accounts
+- List properties with images and details
+- Pay listing fees via M-Pesa (KES 500/month per listing)
+- Manage active/inactive listings
+- View listing analytics (views, etc.)
 
-1. Accept the GitHub Classroom assignment
-2. Clone the repository to your local machine
-3. Follow the instructions in the `Week8-Assignment.md` file
-4. Plan, develop, and deploy your capstone project
+### Payment System
+- M-Pesa integration for all payments
+- Listing fees: KES 500 per property per month
+- Connection fees: KES 100 per tenant-landlord connection
+- Subscription management for landlords
 
-## Files Included
+## Tech Stack
 
-- `Week8-Assignment.md`: Detailed assignment instructions
+- **Frontend**: React.js with Material-UI
+- **Backend**: Node.js with Express.js
+- **Database**: MongoDB
+- **Deployment**: Vercel
+- **Payments**: Demo Payment System
+- **Database**: MongoDB with Mongoose
+- **Authentication**: JWT tokens
+- **Payments**: M-Pesa API integration
+- **File Upload**: Multer for property images
 
-## Requirements
+## Installation
 
-- Node.js (v18 or higher)
-- MongoDB (local installation or Atlas account)
+### Prerequisites
+- Node.js (v14 or higher)
+- MongoDB
 - npm or yarn
-- Git and GitHub account
-- Accounts on deployment platforms (Render/Vercel/Netlify/etc.)
 
-## Project Ideas
+### Backend Setup
+1. Install dependencies:
+```bash
+npm install
+```
 
-The `Week8-Assignment.md` file includes several project ideas, but you're encouraged to develop your own idea that demonstrates your skills and interests.
+2. Create `.env` file with your configuration:
+```
+MONGODB_URI=mongodb://localhost:27017/kejah
+JWT_SECRET=your_jwt_secret
+PAYMENT_MODE=demo
+```
 
-## Submission
+3. Start the backend server:
+```bash
+npm run server
+```
 
-Your project will be automatically submitted when you push to your GitHub Classroom repository. Make sure to:
+### Frontend Setup
+1. Navigate to frontend directory:
+```bash
+cd frontend
+```
 
-1. Commit and push your code regularly
-2. Include comprehensive documentation
-3. Deploy your application and add the live URL to your README.md
-4. Create a video demonstration and include the link in your README.md
+2. Install dependencies:
+```bash
+npm install
+```
 
-## Resources
+3. Start the React development server:
+```bash
+npm start
+```
 
-- [MongoDB Documentation](https://docs.mongodb.com/)
-- [Express.js Documentation](https://expressjs.com/)
-- [React Documentation](https://react.dev/)
-- [Node.js Documentation](https://nodejs.org/en/docs/)
-- [GitHub Classroom Guide](https://docs.github.com/en/education/manage-coursework-with-github-classroom) 
+### Full Development Setup
+Run both frontend and backend concurrently:
+```bash
+npm run dev
+```
+
+## API Endpoints
+
+### Authentication
+- `POST /api/auth/register` - Register new user
+- `POST /api/auth/login` - User login
+- `GET /api/auth/me` - Get current user
+
+### Listings
+- `GET /api/listings` - Get all active listings (with filters)
+- `GET /api/listings/:id` - Get single listing
+- `POST /api/listings` - Create new listing (landlord only)
+- `GET /api/listings/my/listings` - Get landlord's listings
+
+### Payments
+- `POST /api/payments/demo/initiate` - Initiate demo payment
+- `POST /api/payments/demo/complete` - Complete demo payment
+- `GET /api/payments/demo/status/:transactionId` - Get payment status
+- `GET /api/payments/history` - Get payment history
+- `GET /api/payments/pricing` - Get pricing information
+
+## Project Structure
+
+```
+kejah/
+├── backend/                    # Flat structure for easy deployment
+│   ├── *.model.js             # Database models (User, Listing, Payment, etc.)
+│   ├── *.route.js             # API routes (auth, listings, payments, etc.)
+│   ├── *.middleware.js        # Middleware functions (auth)
+│   ├── *.util.js              # Utility functions (listingCleanup)
+│   ├── server.js              # Express server configuration
+│   ├── index.js               # Entry point for Vercel
+│   └── vercel.json            # Vercel deployment config
+├── frontend/
+│   ├── src/
+│   │   ├── components/        # Reusable React components
+│   │   ├── contexts/          # React context providers
+│   │   ├── pages/             # Page components
+│   │   ├── data/              # Static data files
+│   │   └── App.js             # Main app component
+│   └── public/
+├── uploads/                   # Property images (created automatically)
+├── package.json
+└── README.md
+```
+
+## Usage
+
+1. **Student Registration**: Students register with their university information
+2. **Landlord Registration**: Landlords register and can create property listings
+3. **Property Listing**: Landlords create listings and pay activation fees
+4. **Property Search**: Students browse and filter available properties
+5. **Contact Process**: Students pay connection fees to contact landlords
+6. **Payment Processing**: All payments handled via M-Pesa integration
+
+## Payment Flow
+
+1. **Listing Fee**: Landlords pay KES 500 per property per month
+2. **Connection Fee**: Tenants pay KES 100 to access landlord contact details
+3. **M-Pesa Integration**: Secure payment processing with transaction tracking
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License.
+
+## Deployment
+
+### Quick Deployment to Vercel
+
+1. **Prerequisites:**
+   - Vercel account
+   - MongoDB Atlas database
+   - GitHub repository
+
+2. **Deploy Backend:**
+   ```bash
+   # Create new Vercel project with root directory: backend
+   # Add environment variables: MONGODB_URI, JWT_SECRET, NODE_ENV=production
+   ```
+
+3. **Deploy Frontend:**
+   ```bash
+   # Create new Vercel project with root directory: frontend  
+   # Add environment variable: REACT_APP_API_URL=your_backend_url
+   ```
+
+4. **Detailed Instructions:**
+   See [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md) for complete deployment instructions.
+
+## Support
+
+For support, email support@kejah.co.ke or create an issue in the repository.
